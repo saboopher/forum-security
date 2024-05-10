@@ -3,5 +3,8 @@
     "db_dsn": "db_forum.db",
     "db_driver": "sqlite3", 
     "migration_path": "./migration/migration.sql",
-    "init_data_path": "./migration/init.sql"
+    "init_data_path": "./migration/init.sql",
+    "tls_cert_path": "./cmd/tlssertificate/cert.pem",
+    "tls_key_path": "./cmd/tlssertificate/key.pem"
+
 }

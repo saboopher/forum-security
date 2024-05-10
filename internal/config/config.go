@@ -11,6 +11,8 @@ type Config struct {
 	Port          string `json:"port"`
 	MigrationPath string `json:"migration_path"`
 	InitDataPath  string `json:"init_data_path"`
+	CertTLS       string `json:"tls_cert_path"`
+	KeyTLS        string `json:"tls_key_path"`
 }
 
 func NewConfig() (Config, error) {
@@ -25,7 +27,6 @@ func NewConfig() (Config, error) {
 
 	decoder := json.NewDecoder(fileJson)
 	err = decoder.Decode(&cfg)
-
 	if err != nil {
 		return cfg, err
 	}
