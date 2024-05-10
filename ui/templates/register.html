@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Forum</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="shortcut icon" href="/static/img/icons8.png" type="image/x-icon">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&display=swap');
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1><a href='/post'>Forum</a></h1>
+    </header>
+    <nav>
+        <div>
+            <a class="navbutton" href="/post">Home</a>
+        </div>
+        <div>
+            <a class="navbutton" href="/register">Signup</a>
+            <a class="navbutton" href="/signin">Signin</a>
+        </div>
+    </nav>
+
+    <section>
+        {{if .TemplateForm}}
+        <form action="/register" method="POST" novalidate>
+            <div>
+                <label class="error">{{.TemplateForm.RegisterErrors.Name}}</label>
+                <label>Name:</label>
+                <input type="text" name="username" value="{{.TemplateForm.RegisterDataForErr.Name}}" />
+            </div>
+            <div>
+                <label class="error">{{.TemplateForm.RegisterErrors.Email}}</label>
+                <label>Email:</label>
+                <input type="email" name="email" value="{{.TemplateForm.RegisterDataForErr.Email}}" />
+            </div>
+            <div>
+                <label class="error">{{.TemplateForm.RegisterErrors.Password}}</label>
+                <label>Password:</label>
+                <input type="password" name="password" value="{{.TemplateForm.RegisterDataForErr.Password}}" />
+            </div>
+            <div>
+                <label class="error">{{.TemplateForm.RegisterErrors.ConfirmPassword}}</label>
+                <label>Confirm Password:</label>
+                <input type="password" name="password_confirm" value="{{.TemplateForm.RegisterDataForErr.Password}}" />
+            </div>
+            {{else}}
+            <form action="/register" method="POST" novalidate>
+                <div>
+                    <label>Name:</label>
+                    <input type="text" name="username" />
+                </div>
+                <div>
+                    <label>Email:</label>
+                    <input type="email" name="email" />
+                </div>
+                <div>
+                    <label>Password:</label>
+                    <input type="password" name="password" />
+                </div>
+                <div>
+                    <label>Repeat your password:</label>
+                    <input type="password" name="password_confirm" />
+                </div>
+               {{end}}
+                <div>
+                    <input type="submit" value="Signup" />
+                </div>
+            </form>
+    </section>
+
+    <footer>
+        <p>Created by <a href="https://01.alem.school/git/yeakbay" target="_blank">yeakbay</a> and <a href="https://01.alem.school/git/sbakirov" target="_blank">sbakirov</a> in 2024</p>
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Forum</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="shortcut icon" href="/static/img/icons8.png" type="image/x-icon">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&display=swap');
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1><a href='/'>Forum</a></h1>
+    </header>
+    <nav>
+        <div>
+            <a class="navbutton" href="/post">Home</a>
+            {{if .Session}}
+            <a class="navbutton" href="/post/create">Create Post</a>
+            <a class="navbutton" href="/post/?liked=1">Liked Posts</a>
+            {{end}}
+        </div>
+        <div>
+            {{if .Session}}
+            <a class="navbutton" href="/post/myposts">My Posts</a>
+            <form action="/logout" method="POST">
+                <button type="submit">Signout</button>
+            </form>
+            {{else}}
+            <a class="navbutton" href="/register">Signup</a>
+            <a class="navbutton" href="/signin">Signin</a>
+            {{end}}
+        </div>
+    </nav>
+    <section>
+        {{with .Post}}
+        <div class='snippet'>
+            <div class='metadata'>
+                <b class="left">{{.PostTitle}}</b>
+                <!-- <span class="right">#{{.PostID}}</span> -->
+                <span class="right">Categories:</span><br>
+                {{range .Categories}}
+                <span class="right">{{.}}</span><br>
+                {{end}}
+                <span class="right"></span>
+            </div>
+            <pre>{{.PostBody}}</pre>
+            <div class='metadata'>
+                <span>
+                    <form method="POST" action="/post/update?like=1">
+                        <input type="hidden" name="post_id" value="{{.PostID}}">
+                        <button id="like" type="submit"><img src="/static/img/like.png" style="width: 30px ;"
+                                alt="like button"> {{.Likes}} </button>
+                    </form>
+                </span>
+                <span>
+                    <form method="POST" action="/post/update?dislike=1">
+                        <input type="hidden" name="post_id" value="{{.PostID}}">
+                        <input type="hidden" name="vote" value=-1>
+                        <button id="dislike" type="submit"><img src="/static/img/dislike.png" style="width: 30px ;"
+                                alt="dislike button"> {{.Dislikes}}</button>
+                    </form>
+                </span>
+                <div class="time-post">
+                    posted {{.CreatedAt.Format "02/01/2006 15:04"}} by<b>{{.Username}}</b>
+                </div>
+            </div>
+            {{end}}
+            {{if .Session}}
+            <div class="comments">
+                <div class="comments_create">
+                    <form method="POST" action="/comment/create">
+                        <input type="hidden" name="post_id" value={{.Post.PostID}}>
+                        {{if .TemplateCommentForm}}
+                 
+                        {{with .Form.Errors.content}}
+                        {{range .}}
+                        <label class="error">{{.}}</label>
+                        {{end}}
+                        {{end}}
+                        <textarea name="content"
+                            placeholder="Enter a comment...">{{.Form.DataForErr.Content}}</textarea>
+                        {{else}}
+                        <textarea name="content" placeholder="Enter a comment..."></textarea>
+                        {{end}}
+                        <div class='metadata'>
+                            <span>
+                                <button type="submit" class="post_comment_create">Send</button>
+                            </span>
+                        </div>
+                    </form>
+                </div>
+                {{end}}
+                {{range .Post.Comments}}
+                <div class="comments_show">
+                    <div class='comment'>
+                        <b>{{.UserName}}</b>
+                    </div>
+                    <pre><code>{{.Description}}</code></pre>
+                    <div id="{{.ID}}" class='comment'>
+                        <span>
+                            <form method="POST" action="/comment/update?like=1">
+                                <input type="hidden" name="post_id" value="{{.PostID}}">
+                                <input type="hidden" name="comment_id" value="{{.ID}}">
+                                <button type="submit"><img src="/static/img/like.png" style="width: 25px ;"
+                                        alt="like button"> {{.Likes}}</button>
+                            </form>
+                        </span>
+                        <span>
+                            <form method="POST" action="/comment/update?dislike=1">
+                                <input type="hidden" name="post_id" value="{{.PostID}}">
+                                <input type="hidden" name="comment_id" value="{{.ID}}">
+                                <button type="submit"><img src="/static/img/dislike.png" style="width: 25px ;"
+                                        alt="dislike button"> {{.Dislikes}}</button>
+                            </form>
+                        </span>
+
+                        <div class="time-post">
+                            {{.CreatedAt.Format "02/01/2006 15:04"}}
+                        </div>
+                    </div>
+                </div>
+                {{end}}
+            </div>
+        </div>
+    </section>
+    <footer>
+        <p>Created by <a href="https://01.alem.school/git/yeakbay" target="_blank">yeakbay</a> and <a
+                href="https://01.alem.school/git/sbakirov" target="_blank">sbakirov</a> in 2024</p>
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

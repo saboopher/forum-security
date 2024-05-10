@@ -1,0 +1,7 @@
+{
+    "port": ":8989",
+    "db_dsn": "db_forum.db",
+    "db_driver": "sqlite3", 
+    "migration_path": "./migration/migration.sql",
+    "init_data_path": "./migration/init.sql"
+}
